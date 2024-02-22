@@ -10,3 +10,22 @@ class GenreService:
 
     def get_all(self):
         return self.dao.get_all()
+
+    def create(self, data: dict):
+        return self.dao.create(data)
+
+    def update(self, data: dict):
+        genre = self.get_by_id(data['id'])
+        genre.name = data['name']
+        return self.dao.update(genre)
+
+    def partial_update(self, data: dict):
+        genre = self.get_by_id(data.get('id'))
+
+        if data.get('name'):
+            genre.name = data.get('name')
+
+        return self.dao.update(genre)
+
+    def delete(self, id: int):
+        self.dao.delete(id)

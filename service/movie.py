@@ -23,7 +23,7 @@ class MovieService:
         movie.rating = data.get('rating')
         movie.genre_id = data.get('genre_id')
         movie.director_id = data.get('director_id')
-        self.dao.update(movie)
+        return self.dao.update(movie)
 
     def partial_update(self, data: dict):
         movie = self.get_by_id(data.get('id'))
@@ -43,7 +43,7 @@ class MovieService:
         if data.get('director_id'):
             movie.director_id = data.get('director_id')
 
-        self.dao.update(movie)
+        return self.dao.update(movie)
 
     def delete(self, id: int):
         self.dao.delete(id)

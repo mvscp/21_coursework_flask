@@ -30,13 +30,13 @@ class MovieDAO:
     def get_by_year(self, year: int):
         return self.session.query(Movie).filter(Movie.year == year).all()
 
-    def create(self, data: dict):
+    def create(self, data: dict) -> Movie:
         movie = Movie(**data)
         self.session.add(movie)
         self.session.commit()
         return movie
 
-    def update(self, movie: Movie):
+    def update(self, movie: Movie) -> Movie:
         self.session.add(movie)
         self.session.commit()
         return movie
