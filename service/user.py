@@ -1,5 +1,6 @@
 import hashlib
 import hmac
+import base64
 from dao.user import UserDAO
 from constants import PWD_HASH_SALT, PWD_HASH_ITERATIONS
 
@@ -32,15 +33,15 @@ class UserService:
         self.dao.delete(id)
 
     def get_hash(self, password: str):
-        return hashlib.pbkdf2_hmac('sha256',
+        return base64.b64encode(hashlib.pbkdf2_hmac('sha256',
                                    password.encode('utf-8'),
                                    PWD_HASH_SALT,
-                                   PWD_HASH_ITERATIONS).decode('utf-8', 'ignore')
+                                   PWD_HASH_ITERATIONS))
 
     def compare_passwords(self, hashed_password: str, password: str) -> bool:
-        return hmac.compare_digest(hashed_password,
+        return hmac.compare_digest(base64.b64decode(hashed_password),
                                    hashlib.pbkdf2_hmac('sha256',
                                                        password.encode('utf-8'),
                                                        PWD_HASH_SALT,
-                                                       PWD_HASH_ITERATIONS).decode('utf-8', 'ignore')
+                                                       PWD_HASH_ITERATIONS)
                                    )
