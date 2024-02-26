@@ -15,7 +15,7 @@ class GenreService:
         return self.dao.create(data)
 
     def update(self, data: dict):
-        genre = self.get_by_id(data['id'])
+        genre = self.get_by_id(data.get('id'))
         genre.name = data['name']
         return self.dao.update(genre)
 
