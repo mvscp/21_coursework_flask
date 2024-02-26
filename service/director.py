@@ -15,7 +15,7 @@ class DirectorService:
         return self.dao.create(data)
 
     def update(self, data: dict):
-        director = self.get_by_id(data['id'])
+        director = self.get_by_id(data.get('id'))
         director.name = data['name']
         return self.dao.update(director)
 
