@@ -19,6 +19,11 @@ class MovieDAO:
                 movies = movies.filter(Movie.genre_id == filters.get('genre_id'))
             if filters.get('director_id'):
                 movies = movies.filter(Movie.director_id == filters.get('director_id'))
+            if filters.get('status') == 'new':
+                movies = movies.order_by(Movie.id.desc())
+            if filters.get('page'):
+                movies = movies.paginate(page=int(filters.get('page')), per_page=12, error_out=False)
+                return movies.items
         return movies.all()
 
     def get_by_director(self, director_id: int):

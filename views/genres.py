@@ -12,7 +12,7 @@ genre_schema = GenreSchema()
 class GenresView(Resource):
     @auth_required
     def get(self):
-        genres = genre_service.get_all()
+        genres = genre_service.get_all(request.args)
         return genre_schema.dump(genres, many=True), 200
 
     @admin_required

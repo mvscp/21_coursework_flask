@@ -8,8 +8,8 @@ class GenreService:
     def get_by_id(self, id: int):
         return self.dao.get_by_id(id)
 
-    def get_all(self):
-        return self.dao.get_all()
+    def get_all(self, filters: dict = None):
+        return self.dao.get_all(filters)
 
     def create(self, data: dict):
         return self.dao.create(data)

@@ -12,7 +12,7 @@ director_schema = DirectorSchema()
 class DirectorsView(Resource):
     @auth_required
     def get(self):
-        directors = director_service.get_all()
+        directors = director_service.get_all(request.args)
         return director_schema.dump(directors, many=True), 200
 
     @admin_required

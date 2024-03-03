@@ -8,8 +8,12 @@ class DirectorDAO:
     def get_by_id(self, id: int) -> Director:
         return self.session.query(Director).get(id)
 
-    def get_all(self):
-        return self.session.query(Director).all()
+    def get_all(self, filters: dict = None):
+        directors = self.session.query(Director)
+        if filters.get('page'):
+            directors = directors.paginate(page=int(filters.get('page')), per_page=12, error_out=False)
+            return directors.items
+        return directors.all()
 
     def create(self, data: dict) -> Director:
         director = Director(**data)
