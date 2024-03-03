@@ -21,7 +21,7 @@ class GenresView(Resource):
         return '', 201, {"location": f"/genres/{genre.id}"}
 
 
-@genres_ns.route('/<int:id>')
+@genres_ns.route('/<int:id>/')
 class GenreView(Resource):
     @auth_required
     def get(self, id):

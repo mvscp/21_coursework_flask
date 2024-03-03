@@ -21,7 +21,7 @@ class DirectorsView(Resource):
         return '', 201, {'location': f"/directors/{director.id}"}
 
 
-@directors_ns.route('/<int:id>')
+@directors_ns.route('/<int:id>/')
 class DirectorView(Resource):
     @auth_required
     def get(self, id):

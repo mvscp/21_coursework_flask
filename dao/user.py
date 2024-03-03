@@ -1,5 +1,7 @@
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import UnmappedInstanceError
+
+from dao.model.movie import Movie
 from dao.model.user import User
 from dao.model.user_movie import UserMovie
 
@@ -32,6 +34,12 @@ class UserDAO:
         user = self.get_by_id(id)
         self.session.delete(user)
         self.session.commit()
+
+    def get_favorites(self, email: str):
+        user = self.get_by_email(email)
+        movies_id = self.session.query(Movie).join(UserMovie).filter(UserMovie.user_id == user.id)
+        return movies_id.all()
+
 
     def add_favorite(self, email: str, movie_id: int):
         user = self.get_by_email(email)

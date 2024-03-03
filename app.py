@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_restx import Api
+from flask_cors import CORS
 from config import Config
 from setup_db import db
 from views.directors import directors_ns
@@ -19,7 +20,9 @@ def create_app() -> Flask:
 
 def register_extensions(app: Flask):
     db.init_app(app)
-    api = Api(app)
+    cors = CORS(app)
+    cors.init_app(app)
+    api = Api(app, doc='/docs', title='Flask Coursework')
     api.add_namespace(movies_ns)
     api.add_namespace(directors_ns)
     api.add_namespace(genres_ns)

@@ -23,7 +23,7 @@ class MoviesView(Resource):
         return '', 201, {"location": f"/movies/{movie.id}"}
 
 
-@movies_ns.route('/<int:id>')
+@movies_ns.route('/<int:id>/')
 class MovieView(Resource):
     @auth_required
     def get(self, id):
@@ -50,8 +50,18 @@ class MovieView(Resource):
         return '', 204
 
 
-@movies_ns.route('/favorites/<int:movie_id>')
+@movies_ns.route('/favorites/')
 class FavoritesView(Resource):
+    @auth_required
+    def get(self):
+        token = request.headers.get('Authorization').split('Bearer ')[-1]
+        email = jwt.decode(token, key=JWT_SECRET, algorithms=[JWT_ALGORITHM])['email']
+        movies = user_service.get_favorites(email)
+        return movie_schema.dump(movies, many=True), 200
+
+
+@movies_ns.route('/favorites/<int:movie_id>/')
+class FavoriteView(Resource):
     @auth_required
     def post(self, movie_id):
         token = request.headers.get('Authorization').split('Bearer ')[-1]

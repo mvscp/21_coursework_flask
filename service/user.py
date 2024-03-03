@@ -52,6 +52,9 @@ class UserService:
     def delete(self, id: int):
         self.dao.delete(id)
 
+    def get_favorites(self, email: str):
+        return self.dao.get_favorites(email)
+
     def add_favorite(self, email: str, movie_id: int):
         self.dao.add_favorite(email, movie_id)
 
