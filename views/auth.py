@@ -27,7 +27,7 @@ class LoginResource(Resource):
         password = data.get('password', None)
 
         if not email or not password:
-            return '', 401
+            return '', 400
 
         tokens = auth_service.generate_tokens(email, password)
         return tokens, 201
