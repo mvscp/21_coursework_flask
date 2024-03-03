@@ -12,8 +12,8 @@ class UserService:
     def get_by_id(self, id: int):
         return self.dao.get_by_id(id)
 
-    def get_by_username(self, username: str):
-        return self.dao.get_by_username(username)
+    def get_by_email(self, email: str):
+        return self.dao.get_by_email(email)
 
     def get_all(self):
         return self.dao.get_all()
@@ -24,7 +24,8 @@ class UserService:
 
     def update(self, data: dict):
         user = self.get_by_id(data['id'])
-        user.username = data['name']
+        user.name = data['name']
+        user.surname = data['surname']
         user.password = self.get_hash(data.get('password'))
         user.role = data['role']
         return self.dao.update(user)

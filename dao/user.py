@@ -7,8 +7,8 @@ class UserDAO:
     def get_by_id(self, id: int) -> User:
         return self.session.query(User).get(id)
 
-    def get_by_username(self, username: str) -> User:
-        return self.session.query(User).filter(User.username == username).first()
+    def get_by_email(self, email: str) -> User:
+        return self.session.query(User).filter(User.email == email).first()
 
     def get_all(self):
         return self.session.query(User).all()
