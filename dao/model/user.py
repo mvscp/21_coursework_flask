@@ -1,4 +1,6 @@
 from marshmallow import Schema, fields
+
+from dao.model.genre import GenreSchema
 from setup_db import db
 
 class User(db.Model):
@@ -21,3 +23,5 @@ class UserSchema(Schema):
     password = fields.Str()
     name = fields.Str()
     surname = fields.Str()
+    role = fields.Str()
+    genre = fields.Pluck(GenreSchema(), 'name')
