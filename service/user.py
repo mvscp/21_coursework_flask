@@ -52,6 +52,12 @@ class UserService:
     def delete(self, id: int):
         self.dao.delete(id)
 
+    def add_favorite(self, email: str, movie_id: int):
+        self.dao.add_favorite(email, movie_id)
+
+    def delete_favorite(self, email: str, movie_id: int):
+        self.dao.delete_favorite(email, movie_id)
+
     def get_hash(self, password: str):
         return base64.b64encode(hashlib.pbkdf2_hmac('sha256',
                                    password.encode('utf-8'),

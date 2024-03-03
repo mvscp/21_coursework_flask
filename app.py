@@ -10,9 +10,9 @@ from views.auth import auth_ns
 from container import user_service
 
 
-def create_app(config: Config) -> Flask:
+def create_app() -> Flask:
     app = Flask(__name__)
-    app.config.from_object(config)
+    app.config.from_object(Config())
     register_extensions(app)
     return app
 
@@ -39,5 +39,5 @@ def create_data(app: Flask, db):
 
 
 if __name__ == '__main__':
-    app = create_app(Config())
+    app = create_app()
     app.run()

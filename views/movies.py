@@ -1,8 +1,10 @@
-from flask import request, render_template
+from flask import request
 from flask_restx import Namespace, Resource
-from container import movie_service
+from container import movie_service, user_service
 from dao.model.movie import MovieSchema
 from decorators import auth_required, admin_required
+from constants import JWT_SECRET, JWT_ALGORITHM
+import jwt
 
 movies_ns = Namespace('movies')
 movie_schema = MovieSchema()
@@ -45,4 +47,21 @@ class MovieView(Resource):
     @admin_required
     def delete(self, id):
         movie_service.delete(id)
+        return '', 204
+
+
+@movies_ns.route('/favorites/<int:movie_id>')
+class FavoritesView(Resource):
+    @auth_required
+    def post(self, movie_id):
+        token = request.headers.get('Authorization').split('Bearer ')[-1]
+        email = jwt.decode(token, key=JWT_SECRET, algorithms=[JWT_ALGORITHM])['email']
+        user_service.add_favorite(email, movie_id)
+        return '', 201
+
+    @auth_required
+    def delete(self, movie_id):
+        token = request.headers.get('Authorization').split('Bearer ')[-1]
+        email = jwt.decode(token, key=JWT_SECRET, algorithms=[JWT_ALGORITHM])['email']
+        user_service.delete_favorite(email, movie_id)
         return '', 204
