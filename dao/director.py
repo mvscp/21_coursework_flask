@@ -10,9 +10,10 @@ class DirectorDAO:
 
     def get_all(self, filters: dict = None):
         directors = self.session.query(Director)
-        if filters.get('page'):
-            directors = directors.paginate(page=int(filters.get('page')), per_page=12, error_out=False)
-            return directors.items
+        if filters:
+            if filters.get('page'):
+                directors = directors.paginate(page=int(filters.get('page')), per_page=12, error_out=False)
+                return directors.items
         return directors.all()
 
     def create(self, data: dict) -> Director:

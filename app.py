@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restx import Api
 from flask_cors import CORS
-from config import Config
+from config import BaseConfig
 from setup_db import db
 from views.directors import directors_ns
 from views.genres import genres_ns
@@ -11,15 +11,15 @@ from views.auth import auth_ns
 from container import user_service
 
 
-def create_app() -> Flask:
+def create_app(Config) -> Flask:
     app = Flask(__name__)
-    app.config.from_object(Config())
+    app.config.from_object(Config)
     register_extensions(app)
     return app
 
 
 def register_extensions(app: Flask):
-    db.init_app(app)
+    #db.init_app(app)
     cors = CORS(app)
     cors.init_app(app)
     api = Api(app, doc='/docs', title='Flask Coursework')
@@ -42,5 +42,5 @@ def create_data(app: Flask, db):
 
 
 if __name__ == '__main__':
-    app = create_app()
+    app = create_app(BaseConfig)
     app.run()
